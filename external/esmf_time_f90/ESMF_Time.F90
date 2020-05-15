@@ -2,7 +2,7 @@
 !==============================================================================
 !
 !     ESMF Time Module
-      module WRF_ESMF_TimeMod
+      module ESMF_TimeMod
 !
 !==============================================================================
 !
@@ -14,7 +14,7 @@
 
 !==============================================================================
 !BOPI
-! !MODULE: WRF_ESMF_TimeMod
+! !MODULE: ESMF_TimeMod
 !
 ! !DESCRIPTION:
 ! Part of Time Manager F90 API wrapper of C++ implemenation
@@ -27,15 +27,15 @@
 !------------------------------------------------------------------------------
 ! !USES:
       ! inherit from ESMF base class
-      use WRF_ESMF_BaseMod
+      use ESMF_BaseMod
 
       ! inherit from base time class
-      use WRF_ESMF_BaseTimeMod
+      use ESMF_BaseTimeMod
 
       ! associated derived types
-      use WRF_ESMF_TimeIntervalMod
-      use WRF_ESMF_CalendarMod
-      use WRF_ESMF_Stubs
+      use ESMF_TimeIntervalMod
+      use ESMF_CalendarMod
+      use ESMF_Stubs
 
       implicit none
 !
@@ -1177,4 +1177,4 @@
 
       end subroutine ESMF_TimeCopy
 
-      end module WRF_ESMF_TimeMod
+      end module ESMF_TimeMod

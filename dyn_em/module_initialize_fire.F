@@ -28,8 +28,7 @@ MODULE module_initialize_ideal
    USE module_dm
 #endif
    USE module_fr_fire_util, ONLY: continue_at_boundary,crash,read_array_2d_real, &
-     read_array_2d_integer,interpolate_2d,set_ideal_coord,print_2d_stats
-   USE module_fr_fire_phys, ONLY: fuelmc_g,read_namelist_fire 
+     read_array_2d_integer,interpolate_2d,set_ideal_coord 
 
 CONTAINS
 
@@ -121,13 +120,11 @@ CONTAINS
              ifts,ifte, kfts,kfte, jfts,jfte
 
    REAL :: mtn_ht, mtn_max, mtn_x, mtn_y, mtn_z, grad_max
-   REAL :: tign_max,tign_min
    REAL :: mtn_axs, mtn_ays, mtn_axe, mtn_aye
    REAL :: mtn_fxs, mtn_fys, mtn_fxe, mtn_fye
    REAL :: mtn_xs, mtn_ys, mtn_xe, mtn_ye
    REAL :: fdx,fdy ! fire mesh step
    INTEGER:: ir,jr ! refinement factors
-   REAL :: minhfx,maxhfx,totheat
 
    logical have_fire_ht,have_fire_grad,have_atm_grad
 
@@ -243,10 +240,8 @@ CONTAINS
       END DO
     END DO     
 
-! ***** fire
-      write(6,*) '*************************************'
-
 !AK/ak surface initialization latitude, longitude, landuse index from from LANDUSE.TBL skin temperature and soil temperature
+write(6,*) '*************************************'
    IF (sfc_init) THEN
     DO j = jts, jte
       DO i = its, ite
@@ -525,11 +520,6 @@ CONTAINS
                 ifms,ifme,jfms,jfme,  &
                 ifts,ifte,jfts,jfte,  &
                 grid%fxlong,grid%fxlat          )
-  call set_ideal_coord( grid%dx,grid%dy, &
-                ids,ide,jds,jde,  &
-                ims,ime,jms,jme,  &
-                its,ite,jts,jte,  &
-                grid%xlong,grid%xlat          )
 
 ! set terrain height
 
@@ -539,31 +529,9 @@ CONTAINS
   ENDDO
   ENDDO
 
-  if(config_flags%fire_fmc_read.eq.2) then
-          write(6,*)'Reading fuel moisture from file input_fmc_g'
-          call read_array_2d_real   ('input_fmc_g',grid%fmc_g,    ifds,ifde,jfds,jfde,ifms,ifme,jfms,jfme) 
-  endif
-
-  call read_namelist_fire(.false.)  ! read fuel coefficienrs
-
-  if(config_flags%fire_fmc_read.eq.0) then
-          write(6,*)'Setting fuel moisture in wrfinput to constant ', fuelmc_g
-          do j = jfds,jfde
-             do i= ifds,ifde
-                grid%fmc_g(i,j)=fuelmc_g
-             enddo
-          enddo
-  endif
-
-  call print_2d_stats(ifds,ifde,jfds,jfde, &
-                         ifms,ifme,jfms,jfme, &
-                         grid%fmc_g, 'fmc_g')
-
-
-  if(config_flags%fire_fuel_read.eq.2) then
-      write(6,*)'Reading fuel map from file input_fc'
+  if(config_flags%fire_fuel_read.eq.2) &
       call read_array_2d_real('input_fc',grid%nfuel_cat,ifds,ifde,jfds,jfde,ifms,ifme,jfms,jfme) 
-  endif
+
 
   have_fire_grad=.false.
   have_atm_grad=.false.

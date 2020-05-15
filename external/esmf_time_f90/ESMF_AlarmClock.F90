@@ -2,7 +2,7 @@
 !==============================================================================
 !
 !     ESMF Alarm-Clock Module
-      module WRF_ESMF_AlarmClockMod
+      module ESMF_AlarmClockMod
 !
 !==============================================================================
 !
@@ -15,10 +15,10 @@
 !===============================================================================
 !BOPI
 !
-! !MODULE: WRF_ESMF_AlarmClockMod
+! !MODULE: ESMF_AlarmClockMod
 !
 ! !DESCRIPTION:
-! Separate module that uses both WRF_ESMF_AlarmMod and WRF_ESMF_ClockMod.  
+! Separate module that uses both ESMF_AlarmMod and ESMF_ClockMod.  
 ! Separation is needed to avoid cyclic dependence.  
 !
 ! Defines F90 wrapper entry points for corresponding
@@ -29,12 +29,12 @@
 !------------------------------------------------------------------------------
 ! !USES:
       ! inherit ESMF_Alarm and ESMF_Clock
-      use WRF_ESMF_AlarmMod, only : ESMF_Alarm, ESMF_AlarmSet
-      use WRF_ESMF_ClockMod, only : ESMF_Clock, ESMF_ClockAddAlarm
+      use ESMF_AlarmMod, only : ESMF_Alarm, ESMF_AlarmSet
+      use ESMF_ClockMod, only : ESMF_Clock, ESMF_ClockAddAlarm
 
       ! associated derived types
-      use WRF_ESMF_TimeIntervalMod, only : ESMF_TimeInterval
-      use WRF_ESMF_TimeMod,         only : ESMF_Time
+      use ESMF_TimeIntervalMod, only : ESMF_TimeInterval
+      use ESMF_TimeMod,         only : ESMF_Time
 
       implicit none
 
@@ -85,4 +85,4 @@
 
 !------------------------------------------------------------------------------
 
-      end module WRF_ESMF_AlarmClockMod
+      end module ESMF_AlarmClockMod

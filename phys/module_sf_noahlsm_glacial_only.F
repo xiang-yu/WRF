@@ -1,14 +1,5 @@
 MODULE module_sf_noahlsm_glacial_only
-#if defined(mpas)
-use mpas_atmphys_constants
-use mpas_atmphys_utilities, only: physics_error_fatal
-#define FATAL_ERROR(M) call physics_error_fatal( M )
-#else
-use module_model_constants
-use module_wrf_error
-#define FATAL_ERROR(M) call wrf_error_fatal( M )
-#endif
-
+  USE module_model_constants
   USE module_sf_noahlsm, ONLY : RD, SIGMA, CPH2O, CPICE, LSUBF, EMISSI_S, ROSR12
   USE module_sf_noahlsm, ONLY : LVCOEF_DATA
 
@@ -224,7 +215,7 @@ CONTAINS
 ! ----------------------------------------------------------------------
     SNDENS = SNEQV / SNOWH
     IF(SNDENS > 1.0) THEN
-       FATAL_ERROR( 'Physical snow depth is less than snow water equiv.' )
+       CALL wrf_error_fatal ( 'Physical snow depth is less than snow water equiv.' )
     ENDIF
 
     CALL CSNOW (SNCOND,SNDENS)

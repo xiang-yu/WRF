@@ -1,12 +1,3 @@
-#if( BUILD_RRTMK != 1)
-      MODULE module_ra_rrtmg_swk
-      CONTAINS
-      SUBROUTINE rrtmg_sw
-         REAL :: dummy
-         dummy = 1
-      END SUBROUTINE rrtmg_sw
-      END MODULE module_ra_rrtmg_swk
-#else
 !
 !-------------------------------------------------------------------------------
    module parrrsw_k
@@ -2089,10 +2080,11 @@
 !
 ! Recompute original s.s.a. to test for conservative solution
 !
-       zwo = 0._rb
-       denom = 1._rb
-       if (zg .ne. 1._rb) denom = (1._rb - (1._rb - zw) * (zg / (1._rb - zg))**2)
-       if (zw .gt. 0._rb .and. denom .ne. 0._rb) zwo = zw / denom
+       denom = (1._rb - (1._rb - zw) * (zg / (1._rb - zg))**2)
+       if (abs(denom).eq.0.0_rb) then
+           denom = 1.0E-30_rb
+       end if
+       zwo= zw / denom
 !
        if (zwo >= zwcrit) then
 !
@@ -12072,4 +12064,3 @@ contains
 !-------------------------------------------------------------------------------
    end module module_ra_rrtmg_swk
 !-------------------------------------------------------------------------------
-#endif

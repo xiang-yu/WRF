@@ -19,8 +19,7 @@ OBJS = \
 	module_lsm_forcing.o \
 	module_date_utilities_rt.o \
 	module_NWM_io_dict.o \
-	module_NWM_io.o \
-        module_reservoir_routing.o
+	module_NWM_io.o
 
 all:	$(OBJS)
 
@@ -34,7 +33,10 @@ all:	$(OBJS)
 
 .F.o:
 	@echo "Routing Makefile:"
-	$(COMPILER90) $(CPPINVOKE) $(CPPFLAGS) -o $(@) $(F90FLAGS) $(LDFLAGS) $(MODFLAG) -I$(NETCDFINC) $(*).F
+	$(CPP) $(CPPFLAGS) -I$(NETCDFINC) $(*).F > $(*).f
+#	$(COMPILER90) -o $(@) $(F90FLAGS) $(MODFLAG) $(*).f
+	$(COMPILER90) -o $(@) $(F90FLAGS) $(LDFLAGS) $(MODFLAG) -I$(NETCDFINC) $(*).f
+#	$(RMD) $(*).f
 	@echo ""
 	ar -r ../lib/libHYDRO.a $(@)
 	cp *.mod ../mod
@@ -58,17 +60,14 @@ module_HYDRO_io.o:  module_HYDRO_utils.o \
 	 	    ../Data_Rec/module_RT_data.o 
 endif
 
-module_NWM_io_dict: ../Data_Rec/module_namelist.o ../utils/module_version.o
+module_NWM_io_dict: ../Data_Rec/module_namelist.o
 
 module_NWM_io: module_HYDRO_utils.o \
                module_NWM_io_dict.o \
                module_HYDRO_io.o \
                module_date_utilities_rt.o \
                ../Data_Rec/module_namelist.o \
-               ../Data_Rec/module_RT_data.o \
-	       ../utils/module_version.o
-
-module_reservoir_routing: ../Data_Rec/module_namelist.o
+               ../Data_Rec/module_RT_data.o
 
 module_HYDRO_utils.o: ../Data_Rec/module_namelist.o ../Data_Rec/module_RT_data.o
 
@@ -108,4 +107,4 @@ module_channel_routing.o: module_UDMAP.o\
 endif
 
 clean:	
-	rm -f *.o *.mod *.stb *~
+	rm -f *.o *.mod *.stb *~ *.f

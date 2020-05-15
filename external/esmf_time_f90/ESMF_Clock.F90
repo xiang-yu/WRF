@@ -2,7 +2,7 @@
 !==============================================================================
 !
 !     ESMF Clock Module
-      module WRF_ESMF_ClockMod
+      module ESMF_ClockMod
 !     
 !==============================================================================
 !     
@@ -14,7 +14,7 @@
 
 !==============================================================================
 !BOPI
-! !MODULE: WRF_ESMF_ClockMod
+! !MODULE: ESMF_ClockMod
 !     
 ! !DESCRIPTION:
 ! Part of Time Manager F90 API wrapper of C++ implemenation
@@ -27,13 +27,13 @@
 !------------------------------------------------------------------------------
 ! !USES:
       ! inherit from ESMF base class
-      use WRF_ESMF_BaseMod
+      use ESMF_BaseMod
 
       ! associated derived types
-      use WRF_ESMF_TimeIntervalMod   ! , only : ESMF_TimeInterval, &
+      use ESMF_TimeIntervalMod   ! , only : ESMF_TimeInterval, &
                                  !          ESMF_TimeIntervalIsPositive
-      use WRF_ESMF_TimeMod           ! , only : ESMF_Time
-      use WRF_ESMF_AlarmMod,        only : ESMF_Alarm
+      use ESMF_TimeMod           ! , only : ESMF_Time
+      use ESMF_AlarmMod,        only : ESMF_Alarm
 
       implicit none
 !
@@ -98,7 +98,7 @@
 !      public ESMF_ClockGetPrevTime
 !      public ESMF_ClockGetCurrSimTime
 !      public ESMF_ClockGetPrevSimTime
-! This must be public for WRF_ESMF_AlarmClockMod...  
+! This must be public for ESMF_AlarmClockMod...  
       public ESMF_ClockAddAlarm
       public ESMF_ClockGetAlarmList
 !      public ESMF_ClockGetNumAlarms
@@ -887,7 +887,7 @@
       subroutine ESMF_ClockAdvance(clock, RingingAlarmList, &
                                    NumRingingAlarms, rc)
 
-use WRF_ESMF_TimeMod
+use esmf_timemod
 
 ! !ARGUMENTS:
       type(ESMF_Clock), intent(inout) :: clock
@@ -1339,4 +1339,4 @@ use WRF_ESMF_TimeMod
 
 !------------------------------------------------------------------------------
 
-      end module WRF_ESMF_ClockMod
+      end module ESMF_ClockMod

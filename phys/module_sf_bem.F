@@ -2,14 +2,6 @@ MODULE module_sf_bem
 ! -----------------------------------------------------------------------
 !  Variables and constants used in the BEM module
 ! -----------------------------------------------------------------------
-
-#ifdef mpas
-use mpas_atmphys_utilities, only: physics_error_fatal
-#define FATAL_ERROR(M) call physics_error_fatal( M )
-#else
-use module_wrf_error
-#define FATAL_ERROR(M) call wrf_error_fatal( M )
-#endif
          
         real emins		!emissivity of the internal walls
         parameter (emins=0.9) 
@@ -2228,7 +2220,7 @@ use module_wrf_error
                         icol=k
                      endif
                   elseif(ipiv(k).gt.1)then
-                     FATAL_ERROR('singular matrix in gaussjbem')
+                     CALL wrf_error_fatal('singular matrix in gaussjbem')
                   endif
                enddo
             endif
@@ -2249,7 +2241,7 @@ use module_wrf_error
           
          endif
          
-         if(a(icol,icol).eq.0) FATAL_ERROR('singular matrix in gaussjbem')
+         if(a(icol,icol).eq.0) CALL wrf_error_fatal('singular matrix in gaussjbem')
          
          pivinv=1./a(icol,icol)
          a(icol,icol)=1

@@ -1071,10 +1071,16 @@ if(my_id .eq. io_id) then
    flush(6)
 #endif
 
-   iret = nf90_create(trim(output_flnm), OR(NF90_CLOBBER, NF90_NETCDF4), ncid)
+#ifdef WRFIO_NCD_NO_LARGE_FILE_SUPPORT
+   write(6,*) "using normal netcdf file for CHANNEL_CONNECTIVITY"
+   iret = nf_create(trim(output_flnm), NF_CLOBBER, ncid)
+#else
+   write(6,*) "using large netcdf file for CHANNEL_CONNECTIVITY"
+   iret = nf_create(trim(output_flnm), ior(NF_CLOBBER,NF_64BIT_OFFSET), ncid)
+#endif
 
    if (iret /= 0) then
-      print*,"Ndg: Problem nf90_create"
+      print*,"Ndg: Problem nf_create"
       call hydro_stop("output_channel_connectivity")
    endif
 

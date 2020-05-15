@@ -1625,7 +1625,7 @@ SUBROUTINE nssl_2mom_driver(qv, qc, qr, qi, qs, qh, qhl, ccw, crw, cci, csw, chw
 !                              re_liquid, re_graupel, re_hail, re_icesnow,               &
 !                              vtcloud, vtrain, vtsnow, vtgraupel, vthail,               &
                               ipelectmp,                                                &
-                              diagflag,ke_diag,                                         &
+                              diagflag,                                                 &
                               nssl_progn,                                              & ! wrf-chem 
 ! 20130903 acd_mb_washout start
                               rainprod, evapprod,                                       & ! wrf-chem 
@@ -1694,7 +1694,7 @@ SUBROUTINE nssl_2mom_driver(qv, qc, qr, qi, qs, qh, qhl, ccw, crw, cci, csw, chw
       real, intent(in)::    dtp
       integer, intent(in):: itimestep !, ccntype
       logical, optional, intent(in) :: diagflag, f_cna, f_cn
-      integer, optional, intent(in) :: ipelectmp, ke_diag
+      integer, optional, intent(in) :: ipelectmp
 
   LOGICAL, INTENT(IN), OPTIONAL ::    nssl_progn   ! flags for wrf-chem 
   
@@ -1753,8 +1753,6 @@ SUBROUTINE nssl_2mom_driver(qv, qc, qr, qi, qs, qh, qhl, ccw, crw, cci, csw, chw
       double precision :: timevtcalc,timesetvt
       
       logical :: f_cnatmp
-      
-      integer :: kediagloc
 
 
 
@@ -2243,17 +2241,12 @@ SUBROUTINE nssl_2mom_driver(qv, qc, qr, qi, qs, qh, qhl, ccw, crw, cci, csw, chw
    ! calc dbz
       
       IF ( .true. ) THEN
-      IF ( present(ke_diag) ) THEN
-        kediagloc = ke_diag
-      ELSE
-        kediagloc = nz
-      ENDIF
       call radardd02(nx,ny,nz,nor,na,an,t0,         &
-     &    dbz2d,dn1,nz,cnoh,rho_qh,ipconc,kediagloc, 0)
+     &    dbz2d,dn1,nz,cnoh,rho_qh,ipconc, 0)
       ENDIF ! .false.
 
      
-       DO kz = kts,ke_diag ! kte
+       DO kz = kts,kte
         DO ix = its,ite
          dbz(ix,kz,jy) = dbz2d(ix,1,kz)
          IF ( present( vzf ) ) THEN
@@ -6273,7 +6266,7 @@ END SUBROUTINE nssl_2mom_driver
 
 ! ##############################################################################
       subroutine radardd02(nx,ny,nz,nor,na,an,temk,         &
-     &    dbz,db,nzdbz,cnoh0t,hwdn1t,ipconc,ke_diag, iunit)
+     &    dbz,db,nzdbz,cnoh0t,hwdn1t,ipconc, iunit)
 !
 ! 11.13.2005: Changed values of indices for reordering of lip
 !
@@ -6330,7 +6323,6 @@ END SUBROUTINE nssl_2mom_driver
       parameter( ng1 = 1 )
       
       real cnoh0t,hwdn1t
-      integer ke_diag
       integer ipconc
       real vr
 
@@ -6693,7 +6685,7 @@ END SUBROUTINE nssl_2mom_driver
 
       DO jy=1,1
 
-        DO kz = 1,ke_diag ! nz
+        DO kz = 1,nz
          
           DO ix=1,nx
             dbz(ix,jy,kz) = 0.0

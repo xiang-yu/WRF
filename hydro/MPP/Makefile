@@ -16,8 +16,9 @@ mpp_land.o: mpp_land.F
 
 CPL_WRF.o: CPL_WRF.F
 	@echo ""
-	$(RMD) $(*).o $(*).mod $(*).stb *~
-	$(COMPILER90) $(CPPINVOKE) $(CPPFLAGS) -I$(NETCDFINC) -o $(@) $(F90FLAGS) $(LDFLAGS) $(MODFLAG) $(*).F
+	$(RMD) $(*).o $(*).mod $(*).stb *~ *.f
+	$(CPP) $(CPPFLAGS) -I$(NETCDFINC) $(*).F > $(*).f
+	$(COMPILER90) -o $(@) $(F90FLAGS) $(LDFLAGS) $(MODFLAG) $(*).f
         
 	$(COMPILER90) $(F90FLAGS) $(LDFLAGS) -c $(*).F
 	ar -r ../lib/libHYDRO.a $(@)

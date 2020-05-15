@@ -1,12 +1,6 @@
 MODULE module_sf_bep_bem
-#if defined(mpas)
-use mpas_atmphys_utilities, only: physics_error_fatal
-#define FATAL_ERROR(M) call physics_error_fatal( M )
-#else
-use module_wrf_error
-#define FATAL_ERROR(M) call wrf_error_fatal( M )
+
 !USE module_model_constants
-#endif
  USE module_sf_urban
  USE module_sf_bem
 
@@ -3298,7 +3292,7 @@ use module_wrf_error
                         icol=k
                      endif
                   elseif(ipiv(k).gt.1)then
-                     FATAL_ERROR('singular matrix in gaussj')
+                     CALL wrf_error_fatal('singular matrix in gaussj')
                   endif
                enddo
             endif
@@ -3319,8 +3313,8 @@ use module_wrf_error
           
          endif
          
-         if(a(icol,icol).eq.0) FATAL_ERROR('singular matrix in gaussj')
- 
+         if(a(icol,icol).eq.0) CALL wrf_error_fatal('singular matrix in gaussj')
+         
          pivinv=1./a(icol,icol)
          a(icol,icol)=1
          

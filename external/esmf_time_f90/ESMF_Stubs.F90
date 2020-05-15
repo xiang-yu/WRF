@@ -2,7 +2,7 @@
 ! mimicking newer ESMF interface features without necessarily implementing 
 ! them.  
 
-MODULE WRF_ESMF_Stubs
+MODULE ESMF_Stubs
 
    IMPLICIT NONE
 
@@ -49,8 +49,8 @@ CONTAINS
 
 ! NOOP
    SUBROUTINE ESMF_Initialize( vm, defaultcalkind, rc )
-      USE WRF_ESMF_BaseMod
-      USE WRF_ESMF_CalendarMod
+      USE esmf_basemod
+      USE esmf_calendarmod
       TYPE(ESMF_VM),           INTENT(IN   ), OPTIONAL :: vm
       TYPE(ESMF_CalendarType), INTENT(IN   ), OPTIONAL :: defaultcalkind
       INTEGER,                 INTENT(  OUT), OPTIONAL :: rc
@@ -90,7 +90,7 @@ CONTAINS
 
 ! NOOP
    SUBROUTINE ESMF_Finalize( rc )
-      USE WRF_ESMF_BaseMod
+      USE esmf_basemod
       INTEGER, INTENT(  OUT), OPTIONAL :: rc
 #if (defined SPMD) || (defined COUP_CSM)
 #include <mpif.h>
@@ -115,7 +115,7 @@ CONTAINS
 
 ! NOOP
    SUBROUTINE ESMF_LogWrite( msg, MsgType, line, file, method, log, rc )
-      USE WRF_ESMF_BaseMod
+      USE esmf_basemod
       CHARACTER(LEN=*), INTENT(IN) :: msg
       TYPE(ESMF_MsgType), INTENT(IN) :: msgtype
       INTEGER, INTENT(IN), OPTIONAL :: line
@@ -127,6 +127,6 @@ CONTAINS
    END SUBROUTINE ESMF_LogWrite
 
 
-END MODULE WRF_ESMF_Stubs
+END MODULE ESMF_Stubs
 
 

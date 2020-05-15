@@ -1,12 +1,3 @@
-#if( BUILD_RRTMK != 1)
-      MODULE module_ra_rrtmg_lwk
-      CONTAINS
-      SUBROUTINE rrtmg_lw
-         REAL :: dummy
-         dummy = 1
-      END SUBROUTINE rrtmg_lw
-      END MODULE module_ra_rrtmg_lwk
-#else
 !
 ! module module_ra_rrtmg_lw
 !
@@ -13926,4 +13917,3 @@
 !-------------------------------------------------------------------------------
    end module module_ra_rrtmg_lwk
 !-------------------------------------------------------------------------------
-#endif

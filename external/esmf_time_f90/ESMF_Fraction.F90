@@ -4,7 +4,7 @@
 !==============================================================================
 !
 !     ESMF Fraction Module
-      module WRF_ESMF_FractionMod
+      module ESMF_FractionMod
 !
 !==============================================================================
 !
@@ -17,7 +17,7 @@
 !===============================================================================
 !BOPI
 !
-! !MODULE: WRF_ESMF_FractionMod
+! !MODULE: ESMF_FractionMod
 !
 ! !DESCRIPTION:
 ! Part of ESMF F90 API wrapper of C++ implemenation
@@ -68,4 +68,4 @@
 
 !------------------------------------------------------------------------------
 
-      end module WRF_ESMF_FractionMod
+      end module ESMF_FractionMod
