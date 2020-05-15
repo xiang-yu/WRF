@@ -173,10 +173,14 @@ CONTAINS
       REAL,     DIMENSION( ims:ime, jms:jme )                    , &
                 INTENT(INOUT)   ::                                 &
                                                               QGH
+#if defined(mpas)
       REAL,     INTENT(IN   )               ::   CP,G,ROVCP,R,XLV
 
       REAL,     DIMENSION( ims:ime, jms:jme )                    , &
                 INTENT(IN   )               ::                 DX
+#else
+      REAL,     INTENT(IN   )               ::   CP,G,ROVCP,R,XLV,DX
+#endif
  
       REAL, OPTIONAL, DIMENSION( ims:ime, jms:jme )              , &
                 INTENT(OUT)     ::                  ck,cka,cd,cda
@@ -213,9 +217,15 @@ CONTAINS
 
       DO J=jts,jte
 
+#if defined(mpas)
         DO i=its,ite
            DX2D(i)=DX(i,j)
         ENDDO
+#else
+        DO i=its,ite
+           DX2D(i)=DX
+        ENDDo
+#endif
 
         DO i=its,ite
           dz8w1d(I) = dz8w(i,1,j)
@@ -248,7 +258,7 @@ CONTAINS
                 ids,ide, jds,jde, kds,kde,                         &
                 ims,ime, jms,jme, kms,kme,                         &
                 its,ite, jts,jte, kts,kte                          &
-#if ( ( EM_CORE == 1 ) || ( defined(mpas) ) )
+#if ( EM_CORE == 1 )
                 ,isftcflx,iz0tlnd,scm_force_flux,                  &
                 USTM(ims,j),CK(ims,j),CKA(ims,j),                  &
                 CD(ims,j),CDA(ims,j)                               &
@@ -895,6 +905,8 @@ CONTAINS
 !                                                                               
       DO 370 I=its,ite
         QFX(I)=FLQC(I)*(QSFC(I)-QX(I))                                     
+!        QFX(I)=93./XLV   ! H. Wang set it to const
+        QFX(I)=141.46/XLV   ! XYLi set it to const
         QFX(I)=AMAX1(QFX(I),0.)                                            
         LH(I)=XLV*QFX(I)
   370 CONTINUE                                                                 
@@ -915,6 +927,8 @@ CONTAINS
           HFX(I)=FLHC(I)*(THGB(I)-THX(I))                                
           HFX(I)=AMAX1(HFX(I),-250.)                                       
         ENDIF                                                                  
+!        HFX(I) = 16.  ! H. Wang set it to constant
+        HFX(I) = 194.42  ! XYLi set it to constant
   400 CONTINUE                                                                 
 
   405 CONTINUE                                                                 
