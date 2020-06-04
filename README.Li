@@ -16,6 +16,8 @@ git push --set-upstream origin WRF_415_dev
 git clone -b WRF_415_dev --single-branch https://github.com/xiang-yu/WRF.git
 
 * WRF on Constance.pnl.gov
+Tested with V4.1.5 and V3.9.1.1
+
 1. Intel 19.0.3
 module purge
 module load intel/19.0.3
