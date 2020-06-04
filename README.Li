@@ -14,3 +14,68 @@ git push --set-upstream origin WRF_415_dev
 
 * checkout this branch
 git clone -b WRF_415_dev --single-branch https://github.com/xiang-yu/WRF.git
+
+* WRF on Constance.pnl.gov
+1. Intel 19.0.3
+module purge
+module load intel/19.0.3
+module load mvapich2/2.3.2
+module load netcdf/4.4.1.1
+export NETCDF=/share/apps/netcdf/4.4.1.1/intel/19.0.3/
+
+./configure
+
+Then choose 16, 1.
+
+./compile em_les >& log &
+
+Job script,
+#SBATCH -A activate
+#SBATCH -J wrf
+#SBATCH --nodes=1
+#SBATCH -n 8 
+#SBATCH -t 00:59:58
+#SBATCH -p short
+
+module purge
+module load intel/19.0.3
+module load mvapich2/2.3.2
+module load netcdf/4.4.1.1
+export NETCDF=/share/apps/netcdf/4.4.1.1/intel/19.0.3/
+
+ulimit -s unlimited
+export OMP_NUM_THREADS=1
+srun --mpi=pmi2 ./wrf.exe
+
+"export OMP_NUM_THREADS=1" must be in the job script.
+
+2. Intel 15.0.1
+
+module purge
+module load intel/15.0.1
+module load mvapich2/2.1
+module load netcdf/4.4.1.1
+export NETCDF=/share/apps/netcdf/4.4.1.1/intel/15.0.1
+
+./configure
+Then choose 15, 1. Note that 15 is just for the Intel 15.0.1 on Constance.
+
+Job script
+#SBATCH -A activate
+#SBATCH -J wrf
+#SBATCH --nodes=1
+#SBATCH -n 8 
+#SBATCH -t 00:59:58
+#SBATCH -p short
+
+module purge
+module load intel/15.0.1
+module load mvapich2/2.1
+module load netcdf/4.4.1.1
+export NETCDF=/share/apps/netcdf/4.4.1.1/intel/15.0.1
+
+ulimit -s unlimited
+export OMP_NUM_THREADS=1
+srun --mpi=pmi2 ./wrf.exe
+
+For Intel 15.0.1 "export OMP_NUM_THREADS=1" and "--mpi=pmi2" are altenative.
